@@ -1,0 +1,36 @@
+#~ Proyecto para resumir informes
+	*Flujo:
+		. Escribir X cantidad de bitacoras
+		. Al finalizar, se generara un resumen de todas, en formato apto para enviar por correo y con estilo empresarial.
+		. Se creara un el type reporte, el cual tendra: 
+			{
+				Titulo,
+				Area,
+				Responsable, 
+				Fecha, 
+				Mensaje
+			}
+				=> Todo en String, para probar
+				
+React:
+	Rutas dinamicas:
+		npm i react-router-dom@6.23.1
+	Zod:
+		npm i zod@3.22.4
+	Zod Resolvers:
+		npm i @hookform/resolvers@3.3.4
+	Prettier:
+		npm i prettier
+		(activar en ide)
+	Axios:
+		npm i axios@1.6.8
+	Chakra:
+		npm @chakra-ui/react@2.8.2
+	Hook Form
+		npm i react-hook-form@7.51.3
+		
+API: 
+ "model": "gpt-5-nano",
+    "input": "write a haiku about ai",
+    "store": true
+  }'
