@@ -5,7 +5,7 @@ app = Flask(__name__)
 CORS(app)
 
 app.register_blueprint(reports_bp, url_prefix="/api/reports")
-app.register_blueprint(summarized_reports_bp, url_prefix="/api/summarized_reports")
+app.register_blueprint(summarized_reports_bp, url_prefix="/api/summarized-reports")
 
 @app.route("/")
 def home():

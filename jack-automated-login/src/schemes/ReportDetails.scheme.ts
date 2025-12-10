@@ -8,6 +8,7 @@ export const GetReportDetailsSchema = z.object({
   message: z.string(),
   created_at: z.string(),
   enterprise_shift_id: z.coerce.number(),
+  loss_time_count: z.coerce.number(),
 })
 
 export const PostReportDetailsSchema = z.object({
@@ -17,6 +18,8 @@ export const PostReportDetailsSchema = z.object({
   message: z.string(),
   created_at: z.string(),
   enterprise_shift_id: z.coerce.number(),
+  loss_time_count: z.coerce.number(),
+
 });
 
 export type PostReportDetailsType = z.infer<typeof PostReportDetailsSchema>;

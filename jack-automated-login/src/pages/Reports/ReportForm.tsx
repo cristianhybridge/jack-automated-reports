@@ -32,6 +32,7 @@ function ReportForm({ onSuccess }: Props) {
       created_at: todayDate,
       enterprise_shift_id: 0,
       message: "",
+      loss_time_count: 0,
     },
   });
 
@@ -73,10 +74,14 @@ function ReportForm({ onSuccess }: Props) {
           </FormControl>
         </HStack>
 
-        <FormControl id="enterprise_shift_id">
+        <HStack><FormControl id="enterprise_shift_id">
           <FormLabel>Turno</FormLabel>
           <Input type="number" {...form.register("enterprise_shift_id")} />
         </FormControl>
+          <FormControl id="enterprise_shift_id">
+            <FormLabel>Tiempo muerto</FormLabel>
+            <Input type="number" {...form.register("loss_time_count")} />
+          </FormControl></HStack>
 
         <FormControl id="message">
           <FormLabel>Descripción</FormLabel>
