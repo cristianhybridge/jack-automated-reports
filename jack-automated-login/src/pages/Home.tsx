@@ -1,7 +1,9 @@
 ﻿import CreateReport from "./Reports/CreateReport.tsx";
-import {Box, Button, Divider, HStack} from "@chakra-ui/react";
+import { Box, Button, Divider, HStack, VStack } from "@chakra-ui/react";
 import ReportsList from "./Reports/ReportsList.tsx";
-import {useState} from "react";
+import { useState } from "react";
+import SummarizedReportContainer from "./Reports/SummarizedReportContainer.tsx";
+import { useSummaryExists } from "../hooks/useSummary.ts";
 
 type Props = {};
 
@@ -13,15 +15,27 @@ function Home({}: Props) {
   return (
     <>
       <Box ms={8}>
-        <HStack>
+        <VStack
+          position="fixed"
+          top="55"
+          left="0"
+          w="500px"
+          bg="white"
+          spacing={4}
+          p={4}
+        >
           <CreateReport />
-        <Divider orientation="vertical" height="500px" m="3rem" />
+          <Box w="100%" textAlign="right">
+            <Button isDisabled={showResume} onClick={handleShowResume}>
+              {!showResume ? "Generar resumen" : "Resumen Generado"}
+            </Button>
+          </Box>
+          {showResume && <SummarizedReportContainer date="2025-05-12" />}
+        </VStack>
+
+        <Box ml="500px" p={4}>
           <ReportsList />
-        </HStack>
-        <Button isDisabled={showResume} onClick={handleShowResume} mt={5}>
-          {!showResume ? <>Generar resumen</> : <>Resumen Generado</>}
-        </Button>
-        {showResume && <>Resumen...</>}
+        </Box>
       </Box>
     </>
   );
