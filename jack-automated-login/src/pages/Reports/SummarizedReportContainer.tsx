@@ -8,19 +8,18 @@ type Props = {
 };
 
 function SummarizedReportContainer({ date }: Props) {
-  const { isError: emptySummary } = useSummaryExists(date);
+  const { data } = useSummaryExists(date);
   const [closedWindow, setClosedWindow] = useState(false);
   const handleCloseWindow = () => setClosedWindow(true);
 
-  if (emptySummary) return <NewSummarizedReport date={date} />;
+  if (!data?.exists) return <NewSummarizedReport date={date} />;
   if (closedWindow) return null;
-  if (!emptySummary)
-    return (
-      <>
-        Resumen disponible
-        <LoadSummarizedReport date={date} onClose={handleCloseWindow} />
-      </>
-    );
+  return (
+    <>
+      Resumen disponible
+      <LoadSummarizedReport date={date} onClose={handleCloseWindow} />
+    </>
+  );
 }
 
 export default SummarizedReportContainer;

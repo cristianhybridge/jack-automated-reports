@@ -1,13 +1,10 @@
 ﻿import CreateReport from "./Reports/CreateReport.tsx";
-import { Box, Button, Divider, HStack, VStack } from "@chakra-ui/react";
+import { Box, Button, VStack } from "@chakra-ui/react";
 import ReportsList from "./Reports/ReportsList.tsx";
 import { useState } from "react";
 import SummarizedReportContainer from "./Reports/SummarizedReportContainer.tsx";
-import { useSummaryExists } from "../hooks/useSummary.ts";
 
-type Props = {};
-
-function Home({}: Props) {
+function Home() {
   const [showResume, setShowResume] = useState<boolean>(false);
   const handleShowResume = () => {
     if (!showResume) setShowResume(true);
@@ -26,9 +23,11 @@ function Home({}: Props) {
         >
           <CreateReport />
           <Box w="100%" textAlign="right">
-            <Button isDisabled={showResume} onClick={handleShowResume}>
-              {!showResume ? "Generar resumen" : "Resumen Generado"}
-            </Button>
+            {!showResume && (
+              <Button isDisabled={showResume} onClick={handleShowResume}>
+                Generar resumen
+              </Button>
+            )}
           </Box>
           {showResume && <SummarizedReportContainer date="2025-05-12" />}
         </VStack>

@@ -1,6 +1,7 @@
 ﻿import requests
 
 from repositories.summarized_reports_repository import ReportRepository
+from routes.summarized_reports_routes import get_summary_filtered
 
 
 class ReportService:
@@ -30,7 +31,10 @@ class ReportService:
         return ReportRepository.get_summary_filtered(summary_date)
 
     @staticmethod
-    def generate_summary(prompt):
+    def generate_summary(prompt, date):
+        existing = get_summary_filtered(date)
+        if existing:
+            return existing  # don’t call OpenAI again
         openAiApi = f"https://api.openai.com/v1/responses"
         
         payload = {

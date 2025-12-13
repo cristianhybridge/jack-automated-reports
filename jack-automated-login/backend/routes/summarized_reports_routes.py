@@ -21,9 +21,8 @@ summarized_reports_bp = Blueprint("summarized-reports", __name__)
 
 @summarized_reports_bp.get(f"/exists/<string:date>")
 def check_summary_exists(date):
-    return (ReportService.check_summary_exists(date)
-            and (jsonify({"exists": True}), 200
-                 or (jsonify({"exists": False}), 404)))
+    exists =  (ReportService.check_summary_exists(date))
+    return jsonify({"exists": exists}), 200
 
 
 @summarized_reports_bp.get("/")
@@ -65,7 +64,7 @@ def generate_summary(workAreaId, enterpriseShiftId, summaryDate):
     {reports_to_summarize_json}
     """
     
-    summary_response = ReportService.generate_summary(customPrompt)
+    summary_response = ReportService.generate_summary(customPrompt, summaryDate)
     
     ReportService.save_summary(summary_response, workAreaId, enterpriseShiftId, summaryDate)
     summary_filtered = ReportService.get_summary_filtered(summaryDate)
