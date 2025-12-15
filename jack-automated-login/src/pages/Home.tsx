@@ -7,7 +7,7 @@ import SummarizedReportContainer from "./Reports/SummarizedReportContainer.tsx";
 function Home() {
   const [showResume, setShowResume] = useState<boolean>(false);
   const handleShowResume = () => {
-    if (!showResume) setShowResume(true);
+    setShowResume(!showResume);
   };
   return (
     <>
@@ -23,11 +23,7 @@ function Home() {
         >
           <CreateReport />
           <Box w="100%" textAlign="right">
-            {!showResume && (
-              <Button isDisabled={showResume} onClick={handleShowResume}>
-                Generar resumen
-              </Button>
-            )}
+            <Button onClick={handleShowResume}>Verificar resumen</Button>
           </Box>
           {showResume && <SummarizedReportContainer date="2025-05-12" />}
         </VStack>

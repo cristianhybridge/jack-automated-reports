@@ -1,7 +1,8 @@
-﻿import requests
+﻿import time
+import requests
+import os
 
 from repositories.summarized_reports_repository import ReportRepository
-from routes.summarized_reports_routes import get_summary_filtered
 
 
 class ReportService:
@@ -32,22 +33,33 @@ class ReportService:
 
     @staticmethod
     def generate_summary(prompt, date):
-        existing = get_summary_filtered(date)
-        if existing:
-            return existing  # don’t call OpenAI again
         openAiApi = f"https://api.openai.com/v1/responses"
         
         payload = {
             "model": "gpt-5-nano",
             "input": prompt
         }
-        
-        responses = requests.post(openAiApi, json=payload, headers=headers)
-        responses.raise_for_status()
-        
-        output = responses.json()
-        
-        return output
+
+        headers = {
+            "Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}",
+            "Content-Type": "application/json",
+        }
+
+        retries = 2  # total attempts = retries + 1
+
+        for attempt in range(retries + 1):
+            print("Reintento: ", attempt)
+            response = requests.post(openAiApi, json=payload, headers=headers)
+
+            if response.status_code == 429:
+                if attempt < retries:
+                    time.sleep(2 ** attempt)
+                    continue
+                raise RuntimeError("OpenAI rate limit reached")
+
+            response.raise_for_status()
+            return response.json()
+        return None
 
     @staticmethod
     def save_summary(body, work_area_id, enterprise_shift_id, summary_date):

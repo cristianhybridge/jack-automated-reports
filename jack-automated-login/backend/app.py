@@ -1,3 +1,7 @@
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from flask import Flask
 from routes.summarized_reports_routes import reports_bp, summarized_reports_bp
 from flask_cors import CORS

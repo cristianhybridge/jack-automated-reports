@@ -1,5 +1,4 @@
 ﻿import json
-from http.client import responses
 
 from flask import jsonify, request
 from flask import Blueprint
@@ -32,6 +31,11 @@ def get_all_summarized_reports():
 
 @summarized_reports_bp.post(f"/generate-summary/<int:workAreaId>/<int:enterpriseShiftId>/<string:summaryDate>")
 def generate_summary(workAreaId, enterpriseShiftId, summaryDate):
+    if (ReportService.check_summary_exists(summaryDate)):
+        print(f"Summary with date {summaryDate} already exist!")
+        return jsonify(ReportService.get_summary_filtered(summaryDate)), 201
+
+    print(f"Creating new summary for the date: {summaryDate}")
     data = ReportService.get_all_reports_details()
     reports_to_summarize_json = json.dumps(data, ensure_ascii=False, default=str)
     
@@ -63,9 +67,12 @@ def generate_summary(workAreaId, enterpriseShiftId, summaryDate):
     === REPORTES A RESUMIR ===
     {reports_to_summarize_json}
     """
-    
-    summary_response = ReportService.generate_summary(customPrompt, summaryDate)
-    
+
+    try:
+        summary_response = ReportService.generate_summary(customPrompt, summaryDate)
+    except RuntimeError as e:
+        return jsonify({"error": str(e)}), 429
+
     ReportService.save_summary(summary_response, workAreaId, enterpriseShiftId, summaryDate)
     summary_filtered = ReportService.get_summary_filtered(summaryDate)
     if not summary_filtered:
